@@ -16,6 +16,13 @@ public  class Account {
 		this.customerId = customerId;
 		
 	}
+	public Account(String accountType, double balance,int customerId, String password){
+		this.accountType=accountType;
+		this.balance=balance;
+		this.customerId=customerId;
+		this.password=password;
+	}
+
     
 	public String getPassword() {
 		return password;
@@ -28,6 +35,11 @@ public  class Account {
 	public int getAccountNumber() {
 		return accountNumber;
 	}
+
+	public void setAccountNumber(int accountNumber){
+		this.accountNumber=accountNumber;
+	}
+
 
 	public String getAccountType() {
 		return accountType;

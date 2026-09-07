@@ -21,6 +21,15 @@ public class Transaction {
 		this.transactionType = transactionType;
 	}
 
+	public Transaction( int senderAccountNumber, int receiverAccountNumber, double amount,
+					   LocalDateTime timeStamp,  TransactionType transactionType) {
+		this.senderAccountNumber = senderAccountNumber;
+		this.receiverAccountNumber = receiverAccountNumber;
+		this.amount = amount;
+		this.timeStamp = timeStamp;
+		this.transactionType = transactionType;
+	}
+
 	public int getTransactionId() {
 		return transactionId;
 	}
@@ -61,7 +70,7 @@ public class Transaction {
 		this.timeStamp = timeStamp;
 	}
 
-	public  TransactionType getTransactionType() {
+	public TransactionType getTransactionType() {
 		return transactionType;
 	}
 

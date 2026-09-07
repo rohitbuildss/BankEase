@@ -18,9 +18,23 @@ public class Customer {
 		this.gender = gender;
 	}
 
+	public Customer(String name, int age, String phone, String address, String gender){
+		this.name = name;
+		this.age=age;
+		this.phone=phone;
+		this.address=address;
+		this.gender = gender;
+	}
+
+
 	public int getCustomerId() {
 		return customerId;
 	}
+
+	public void setCustomerId(int customerId){
+		this.customerId=customerId;
+	}
+
 
 	public String getName() {
 		return name;

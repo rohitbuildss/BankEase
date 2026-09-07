@@ -1,8 +1,12 @@
 package main;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import database.DBConnection;
 import exception.AccountNotFoundException;
 import exception.DuplicateAccountException;
 import exception.InsufficientBalanceException;
@@ -101,7 +105,7 @@ public class Main {
 			System.out.println("\nAccount Created Successfully\n");
 			return account;
 
-		} catch (InvalidAccountDataException | InvalidPasswordException | InvalidAmountException e) {
+		} catch (InvalidAccountDataException | InvalidPasswordException | InvalidAmountException | SQLException e) {
 			System.out.println("\n" + e.getMessage());
 		}
 
@@ -120,7 +124,7 @@ public class Main {
 		try {
 			bankService.login(accountNumber, password);
 			System.out.println("\nLogin Successful!\n");
-		} catch (AccountNotFoundException | InvalidPasswordException e) {
+		} catch (AccountNotFoundException | InvalidPasswordException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -134,7 +138,7 @@ public class Main {
 		try {
 			bankService.depositMoney(amount);
 			System.out.println("\nAmount Deposited Successfully\n");
-		} catch (InvalidAmountException | NotLoggedInException e) {
+		} catch (InvalidAmountException | NotLoggedInException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -148,7 +152,7 @@ public class Main {
 		try {
 			bankService.withdrawMoney(amount);
 			System.out.println("\nMoney Withdrawn Successfully\n");
-		} catch (InvalidAmountException | InsufficientBalanceException | NotLoggedInException e) {
+		} catch (InvalidAmountException | InsufficientBalanceException | NotLoggedInException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -159,7 +163,7 @@ public class Main {
 			double balance = bankService.checkBalance();
 			System.out.println("\nAccount Balance Is: " + balance + "\n");
 
-		} catch (NotLoggedInException e) {
+		} catch (NotLoggedInException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -181,7 +185,7 @@ public class Main {
 			System.out.println("Gender         : " + details.getCustomer().getGender());
 			System.out.println("============================\n");
 
-		} catch (NotLoggedInException e) {
+		} catch (NotLoggedInException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -198,8 +202,8 @@ public class Main {
 		try {
 			bankService.transferMoney(receiverAccountNumber, amount);
 			System.out.println("\nMoney Transfered SucessFully\n");
-		} catch (InvalidAmountException | InsufficientBalanceException | NotLoggedInException
-				| DuplicateAccountException | AccountNotFoundException e) {
+		} catch (InvalidAmountException | InsufficientBalanceException | NotLoggedInException |
+                 DuplicateAccountException | AccountNotFoundException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -232,7 +236,7 @@ public class Main {
 
 			System.out.println();
 
-		} catch (NotLoggedInException e) {
+		} catch (NotLoggedInException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -253,7 +257,7 @@ public class Main {
 			System.out.println("Interest        : ₹" + result.getInterest());
 			System.out.println("============================\n");
 
-		} catch (NotLoggedInException | InvalidTimePeriodException e) {
+		} catch (NotLoggedInException | InvalidTimePeriodException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -270,7 +274,7 @@ public class Main {
 			bankService.changePassword(currentPassword, newPassword);
 			System.out.println("\nPassword Updated Successfully\n");
 
-		} catch (NotLoggedInException | InvalidPasswordException e) {
+		} catch (NotLoggedInException | InvalidPasswordException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
@@ -305,14 +309,20 @@ public class Main {
 
 			System.out.println("\nDetails Updated SuccessFully.\n");
 
-		} catch (NotLoggedInException | InvalidAccountDataException e) {
+		} catch (NotLoggedInException | InvalidAccountDataException | SQLException e) {
 			System.out.println("\n" + e.getMessage() + "\n");
 		}
 	}
 
 	public static void main(String[] args) {
 
-		while (true) {
+		try(Connection con = DBConnection.getConnection();){
+			System.out.println("Connection Estabilished SuceessFully");
+		} catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        while (true) {
 
 			showMenu();
 
